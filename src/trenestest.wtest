@@ -1,0 +1,57 @@
+import vagonpasajero.*
+import locomotora.*
+import vagoncarga.*
+import formacion.*
+
+describe "Test de  vagones" {
+
+	const vagonUno = new VagonPasajero(2, 10)
+	const vagonDos = new VagonPasajero(3, 10)
+	const vagonCarga = new VagonCarga(1000)
+	const locomotora = new Locomotora(12000, 1000, 80)
+	const locomotora1 = new Locomotora(12000,1000,50)
+	const formacion = new Formacion()
+	
+	
+
+	test "P.ej., si tenemos dos vagones de pasajeros, los dos de 10 metros de largo, uno de 2 metros
+de ancho útil, y otro de 3 metros de ancho útil, entonces el primero puede llevar 80
+pasajeros, y el segundo puede llevar 100." {
+		assert.equals(80, vagonUno.calcularCantidadDePasajeros())
+		assert.equals(100, vagonDos.calcularCantidadDePasajeros())
+	}
+
+	test "De cada vagón de carga se conoce la carga máxima que puede llevar, en kilos. Un vagón
+de carga no puede llevar ningún pasajero. No hay vagones mixtos." {
+		assert.equals(1160, vagonCarga.calcularPesoMaximo())
+		assert.equals(6400, vagonUno.calcularPesoMaximo())
+		assert.equals(8000, vagonDos.calcularPesoMaximo())
+	}
+
+	test "De cada locomotora se sabe: su peso, el peso máximo que puede arrastrar, y su velocidad
+máxima. P.ej. puedo tener una locomotora que pesa 1000 kg, puede arrastrar hasta 12000
+kg, y su velocidad máxima es de 80 km/h. Obviamente se tiene que arrastrar a ella misma,
+entonces no le puedo cargar 12000 kg de vagones, solamente 11000; diremos que este es
+su “arrastre útil”." {
+		assert.equals(11000, locomotora.pesoMaximoQueArrastra())
+	}
+
+	test"Cuántos vagones livianos tiene una formación; un vagón es liviano si su peso
+máximo es menor a 2500 kg" {
+	
+	assert.equals(0,formacion.cantidadDeVagonesLivianos())
+	
+	}
+	
+	test " La velocidad máxima de una formación, que es el mínimo entre las velocidades
+máximas de las locomotoras." {
+	formacion.agregarLocomotora(locomotora)
+	formacion.agregarLocomotora(locomotora1)
+	
+	assert.equals(50,formacion.velocidadMaximaDeFormacion())
+	
+}
+
+
+
+}
